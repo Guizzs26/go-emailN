@@ -2,6 +2,7 @@ package campaign
 
 import (
 	"errors"
+	"net/mail"
 	"time"
 )
 
@@ -15,6 +16,11 @@ type Campaign struct {
 	Content   string    `json:"content"`
 	Contacts  []Contact `json:"contacts"`
 	CreatedAt time.Time `json:"created_at"`
+}
+
+func isValidEmail(email string) bool {
+	emailAddress, err := mail.ParseAddress(email)
+	return err == nil && emailAddress.Name == email
 }
 
 func NewCampaign(name, content string, emails []string) (*Campaign, error) {
@@ -36,11 +42,15 @@ func NewCampaign(name, content string, emails []string) (*Campaign, error) {
 			return nil, errors.New("email contact cannot be empty")
 		}
 
+		if !isValidEmail(email) {
+			return nil, errors.New("invalid email: " + email)
+		}
+
 		contacts[i].Email = email
 	}
 
 	return &Campaign{
-		ID:        "1", // For now, hard-coded
+		ID:        "1",
 		Name:      name,
 		Content:   content,
 		Contacts:  contacts,
