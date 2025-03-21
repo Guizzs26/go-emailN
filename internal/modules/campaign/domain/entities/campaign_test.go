@@ -89,3 +89,44 @@ func TestCreateNewCampaignWithValidEmailError(t *testing.T) {
 		assert.Equal("invalid email: invalid-email@", err.Error())
 	})
 }
+
+// Edge Cases
+
+func TestEmptyNameWithOnlySpacesError(t *testing.T) {
+	t.Run("", func(t *testing.T) {
+		assert := assert.New(t)
+		name := "     "
+		content := "Last day of discounts of up to 80%"
+		emails := []string{"valid@example.com", "another@example.com"}
+
+		_, err := NewCampaign(name, content, emails)
+
+		assert.Equal("name is required", err.Error())
+	})
+}
+
+func TestEmptyContentWithOnlySpacesError(t *testing.T) {
+	t.Run("", func(t *testing.T) {
+		assert := assert.New(t)
+		name := "Black Friday"
+		content := "     "
+		emails := []string{"valid@example.com", "another@example.com"}
+
+		_, err := NewCampaign(name, content, emails)
+
+		assert.Equal("content is required", err.Error())
+	})
+}
+
+func TestEmptyContactWithOnlySpacesError(t *testing.T) {
+	t.Run("", func(t *testing.T) {
+		assert := assert.New(t)
+		name := "Black Friday"
+		content := "Last day of discounts of up to 80%"
+		emails := []string{"valid@example.com", "     "}
+
+		_, err := NewCampaign(name, content, emails)
+
+		assert.Equal("email contact cannot be empty", err.Error())
+	})
+}

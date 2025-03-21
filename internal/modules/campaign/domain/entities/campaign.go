@@ -3,6 +3,7 @@ package campaign
 import (
 	"errors"
 	"net/mail"
+	"strings"
 	"time"
 
 	"github.com/rs/xid"
@@ -26,11 +27,11 @@ func isValidEmail(email string) bool {
 }
 
 func NewCampaign(name, content string, emails []string) (*Campaign, error) {
-	if name == "" {
+	if strings.TrimSpace(name) == "" {
 		return nil, errors.New("name is required")
 	}
 
-	if content == "" {
+	if strings.TrimSpace(content) == "" {
 		return nil, errors.New("content is required")
 	}
 
@@ -40,7 +41,7 @@ func NewCampaign(name, content string, emails []string) (*Campaign, error) {
 
 	contacts := make([]Contact, len(emails))
 	for i, email := range emails {
-		if email == "" {
+		if strings.TrimSpace(email) == "" {
 			return nil, errors.New("email contact cannot be empty")
 		}
 
