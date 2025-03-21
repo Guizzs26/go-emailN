@@ -19,7 +19,7 @@ func TestCreateNewCampaign(t *testing.T) {
 
 		assert.Equal(name, c.Name, "Expected campaign name to be '%s', but got '%s'", name, c.Name)
 		assert.Equal(content, c.Content, "Expected campaign content to be '%s', but got '%s'", content, c.Content)
-		assert.Len(len(c.Contacts), len(emails), "Expected %d contacts, but got %d", len(emails), len(c.Contacts))
+		assert.Equal(len(c.Contacts), len(emails), "Expected %d contacts, but got %d", len(emails), len(c.Contacts))
 		assert.Equal(emails[0], c.Contacts[0].Email, "Expected first contact email to be '%s', but got '%s'", emails[0], c.Contacts[0].Email)
 		assert.Equal(emails[1], c.Contacts[1].Email, "Expected second contact email to be '%s', but got '%s'", emails[1], c.Contacts[1].Email)
 		assert.NotEmpty(c.ID, "Expected campaign ID to be generated, but got an empty value")

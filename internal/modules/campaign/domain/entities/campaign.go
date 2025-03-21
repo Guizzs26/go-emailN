@@ -4,6 +4,8 @@ import (
 	"errors"
 	"net/mail"
 	"time"
+
+	"github.com/rs/xid"
 )
 
 type Contact struct {
@@ -20,7 +22,7 @@ type Campaign struct {
 
 func isValidEmail(email string) bool {
 	emailAddress, err := mail.ParseAddress(email)
-	return err == nil && emailAddress.Name == email
+	return err == nil && emailAddress.Address == email
 }
 
 func NewCampaign(name, content string, emails []string) (*Campaign, error) {
@@ -50,7 +52,7 @@ func NewCampaign(name, content string, emails []string) (*Campaign, error) {
 	}
 
 	return &Campaign{
-		ID:        "1",
+		ID:        xid.New().String(),
 		Name:      name,
 		Content:   content,
 		Contacts:  contacts,
